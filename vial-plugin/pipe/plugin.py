@@ -22,8 +22,6 @@ def execute_one():
             for line in stderr.splitlines():
                 echom(line)
 
-
-
     make_scratch('vial-pipe', title='Result')
     vim.command('norm! ggdG')
     vim.command('0read /tmp/vial-pipe-result.txt')
