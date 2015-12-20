@@ -6,7 +6,7 @@ from vial.widgets import make_scratch
 from vial.utils import focus_window
 
 
-def execute_one():
+def execute():
     cbuf = vim.current.buffer
     cwin = vim.current.window
     start = cbuf.mark('{')[0]
@@ -16,11 +16,7 @@ def execute_one():
     executable = cbuf[0]
     with open('/tmp/vial-pipe-result.txt', 'wb') as f:
         stdout, stderr = Popen(executable, shell=True,
-                               stderr=PIPE, stdout=f, stdin=PIPE).communicate(input)
-
-        if stderr:
-            for line in stderr.splitlines():
-                echom(line)
+                               stderr=f, stdout=f, stdin=PIPE).communicate(input)
 
     make_scratch('vial-pipe', title='Result')
     vim.command('norm! ggdG')
