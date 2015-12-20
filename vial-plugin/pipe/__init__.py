@@ -1,4 +1,7 @@
 import vial
 
 def init():
-    vial.register_command('VialPipeExecute', '.plugin.execute')
+    vial.vim.command('nnoremap <silent> <Plug>VialPipeExecute :{}<cr>'
+                     .format(vial.python('.plugin.execute', 0)))
+    vial.vim.command('vnoremap <silent> <Plug>VialPipeExecute :{}<cr>'
+                     .format(vial.python('.plugin.execute', 1)))
