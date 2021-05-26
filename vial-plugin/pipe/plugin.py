@@ -102,7 +102,8 @@ def send_to(mode):
     executable = cbuf[0].lstrip('#! ')
 
     proc = tty_proc(executable)
-    os.write(proc.vial_master, input + '\n')
+    for line in input.splitlines():
+        os.write(proc.vial_master, line + '\n')
 
     _, sbuf = make_scratch('vial-pipe', title='Result')
     data = read_data(proc.vial_master)
