@@ -7,6 +7,7 @@ import termios
 from subprocess import PIPE, Popen
 
 from vial import vim
+from vial.compat import bstr
 from vial.widgets import make_scratch
 from vial.utils import focus_window
 
@@ -81,7 +82,7 @@ def execute(mode):
     cbuf = vim.current.buffer
     cwin = vim.current.window
 
-    input = get_input(mode, cbuf)
+    input = bstr(get_input(mode, cbuf), 'utf-8')  # TODO: use buffer encoding
     executable = cbuf[0].lstrip('#! ')
 
     with open('/tmp/vial-pipe-result.txt', 'wb') as f:
@@ -98,7 +99,7 @@ def send_to(mode):
     cbuf = vim.current.buffer
     cwin = vim.current.window
 
-    input = get_input(mode, cbuf)
+    input = bstr(get_input(mode, cbuf), 'utf-8')  # TODO: use buffer encoding
     executable = cbuf[0].lstrip('#! ')
 
     proc = tty_proc(executable)
