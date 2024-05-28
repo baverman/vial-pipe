@@ -43,7 +43,7 @@ def read_data(fd, timeout=60):
         until = time.time() + 0.5
         tm = False
 
-    return ''.join(data)
+    return b''.join(data)
 
 
 procs = {}
@@ -95,7 +95,7 @@ def execute(mode):
     focus_window(cwin)
 
 
-def send_to(mode):
+def send_to(mode, noscratch=False):
     cbuf = vim.current.buffer
     cwin = vim.current.window
 
@@ -104,9 +104,10 @@ def send_to(mode):
 
     proc = tty_proc(executable)
     for line in input.splitlines():
-        os.write(proc.vial_master, line + '\n')
+        os.write(proc.vial_master, line + b'\n')
 
-    _, sbuf = make_scratch('vial-pipe', title='Result')
     data = read_data(proc.vial_master)
-    sbuf[:] = data.splitlines()
-    focus_window(cwin)
+    if not noscratch:
+        _, sbuf = make_scratch('vial-pipe', title='Result')
+        sbuf[:] = data.splitlines()
+        focus_window(cwin)
